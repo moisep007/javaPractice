@@ -1,29 +1,46 @@
 public class Automovil {
     private String fabricante;
     private String modelo;
-    private String color = "gris";
     private double cilindrada;
     private int capacidadTanque= 40;
+    private static String colorPatente = "Naranja";
+    private static int capacidadTanqueEstatico = 30;
+    private int id;
+    private static int ultimoID;
+    private Color color = Color.GRIS;
+    private TipoMotor tipoMotor;
+    private TipoAutomovil tipo;
+    private Motor motor;
+    public static final Integer VELOCIDAD_MAXIMA_CARRETERRA = 120;
+    public static final int VELOCIDAD_MAXIMA_CIUDAD = 60;
+
+    public static final String COLOR_ROJO = "Rojo";
+    public static final String COLOR_AMARILLO = "Amarillo";
+    public static final String COLOR_AZUL = "Azul";
+    public static final String COLOR_BLANCO = "Blanco";
+    public static final String COLOR_GRIS = "Gris Oscuro";
 
     public Automovil() {
+        this.id = ++ultimoID;
     }
 
     public Automovil(String fabricante, String modelo){
+        this();
         this.fabricante = fabricante;
         this.modelo = modelo;
     }
 
-    public Automovil(String fabricante, String modelo, String color){
+    public Automovil(String fabricante, String modelo, Color color){
         this(fabricante, modelo);
         this.color = color;
     }
 
-    public Automovil(String fabricante, String modelo, String color, double cilindrada) {
+    public Automovil(String fabricante, String modelo, Color color, double cilindrada) {
         this(fabricante, modelo, color);
         this.cilindrada = cilindrada;
     }
 
-    public Automovil(String fabricante, String modelo, String color, double cilindrada, int capacidadTanque) {
+    public Automovil(String fabricante, String modelo, Color color, double cilindrada, int capacidadTanque) {
         this(fabricante, modelo, color, cilindrada);
         this.capacidadTanque = capacidadTanque;
     }
@@ -44,11 +61,11 @@ public class Automovil {
         this.modelo = modelo;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -68,12 +85,72 @@ public class Automovil {
         this.capacidadTanque = capacidadTanque;
     }
 
+    public static String getColorPatente(){
+        return colorPatente;
+    }
+    public static void setColorPatente(String colorPatente){
+        Automovil.colorPatente = colorPatente;
+    }
+
+    public static int getCapacidadTanqueEstatico() {
+        return capacidadTanqueEstatico;
+    }
+
+    public static void setCapacidadTanqueEstatico(int capacidadTanqueEstatico) {
+        Automovil.capacidadTanqueEstatico = capacidadTanqueEstatico;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static int getUltimoID() {
+        return ultimoID;
+    }
+
+    public static void setUltimoID(int ultimoID) {
+        Automovil.ultimoID = ultimoID;
+    }
+
+    public TipoAutomovil getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoAutomovil tipo) {
+        this.tipo = tipo;
+    }
+
+    public Motor getMotor() {
+        return motor;
+    }
+
+    public void setMotor(Motor motor) {
+        this.motor = motor;
+    }
+
+    public TipoMotor getTipoMotor() {
+        return tipoMotor;
+    }
+
+    public void setTipoMotor(TipoMotor tipoMotor) {
+        this.tipoMotor = tipoMotor;
+    }
+
     public String verDetalle(){
         StringBuilder sb = new StringBuilder();
         sb.append("auto.fabricante = " + this.fabricante);
-        sb.append("\nauto.fabricante = " + this.modelo);
-        sb.append("\nauto.fabricante = " + this.color);
-        sb.append("\nauto.fabricante = " + this.cilindrada);
+        if(this.getTipo()!= null) {
+            sb.append("\nauto.modelo = " + this.getTipo().getDescripcion());
+        }
+        sb.append("\nauto.color = " + this.color.getColor());
+        sb.append("\nauto.cilindrada = " + this.cilindrada);
+        sb.append("\nauto.color patente = " + colorPatente);
+        sb.append("\nauto.id ID = " + this.id);
+
         return sb.toString();
     }
 
@@ -95,7 +172,9 @@ public class Automovil {
     public float calcularConsumo(int km, int porcentajeBencina){
         return km/((porcentajeBencina/100f)*capacidadTanque);
     }
-
+    public static float calcularConsumoEstatico(int km, int porcentajeBencina){
+        return km/((porcentajeBencina/100f)*capacidadTanqueEstatico);
+    }
     @Override
     public boolean equals(Object obj) {
         if(this == obj){
